@@ -3,33 +3,64 @@
 <html lang="en">
 
 <head>
+  <!-- Meta -->
+  <meta property="og:title" content="DM Magnet – AI Auto-Replies for Your Store" />
+  <meta property="og:description" content="Reply to Instagram DMs with AI — instantly, casually, and in your voice." />
+  <meta property="og:image" content="https://dm.cvisionglobal.com/share-preview.png" />
+  <meta property="og:url" content="https://dm.cvisionglobal.com" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DM Magnet - Close More Sales While You Sleep</title>
+  <link rel="icon" type="image/png" href="favicon2.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    .glow-btn {
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.8), 0 0 20px rgba(168, 85, 247, 0.6);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    .glow-btn:hover {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 1), 0 0 30px rgba(168, 85, 247, 0.9);
+    }
+  </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans" data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+  <div id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 shadow-md">
+    <div class="flex items-center space-x-3">
+      <img src="CVision LABS Logo.png" alt="CVision Logo" class="h-20 w-auto" />
+    </div>
+    <a href="https://cvisionglobal.com" target="_blank" class="text-purple-700 font-medium bg-purple-50 px-4 py-2 rounded-full hover:bg-purple-100 shadow-sm transition">← Back to CVision Global</a>
+  </header>
+
   <!-- Hero Section -->
-  <section class="text-center py-20 px-6 bg-white">
-    <h1 class="text-4xl font-bold mb-4">Close More Sales. While You Sleep.</h1>
-    <p class="text-lg mb-6">DM Magnet helps small Instagram shop owners auto-reply to DMs using AI — instantly, smartly, and in your voice.</p>
-    <button class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700">Join the Waitlist</button>
+  <section class="text-center py-20 px-6 bg-white animate__animated animate__fadeIn" data-aos="fade-up">
+    <h1 class="text-4xl font-bold mb-4 animate__animated animate__fadeInDown">Close More Sales. While You Sleep.</h1>
+    <p class="text-lg mb-6 animate__animated animate__fadeInUp animate__delay-1s">DM Magnet helps small Instagram shop owners auto-reply to DMs using AI — instantly, smartly, and in your voice.</p>
+    <button onclick="openModal()" class="bg-purple-600 text-white px-6 py-3 rounded-full glow-btn animate__animated animate__pulse animate__infinite">
+      Join the Waitlist
+    </button>
   </section>
 
   <!-- AI Demo Section -->
-  <section class="py-16 px-6 max-w-3xl mx-auto">
+  <section class="py-16 px-6 max-w-3xl mx-auto animate__animated animate__fadeInUp" data-aos="fade-up">
     <h2 class="text-2xl font-semibold mb-4">🎯 Try the AI Reply Demo</h2>
     <label for="customerMsg" class="block mb-2">Paste a customer DM message:</label>
     <textarea id="customerMsg" rows="4" class="w-full p-3 border rounded mb-4" placeholder="Example: 'What's the price of this kurti?'..."></textarea>
-    <button onclick="getAIReply()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Generate Reply</button>
+    <button onclick="getAIReply()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 glow-btn">Generate Reply</button>
 
     <div id="aiResponse" class="mt-6 p-4 border rounded hidden"></div>
     <button id="copyBtn" class="mt-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 hidden">📋 Copy Reply</button>
   </section>
 
-  <!-- JS for Fetch API -->
   <script>
+    AOS.init();
+
     async function getAIReply() {
       const message = document.getElementById("customerMsg").value;
       const responseBox = document.getElementById("aiResponse");
@@ -61,10 +92,8 @@
         responseBox.innerHTML = `<strong>AI Reply:</strong><br>${reply}`;
         copyBtn.classList.remove("hidden");
 
-        // Auto-scroll
         responseBox.scrollIntoView({ behavior: "smooth" });
 
-        // Copy button logic
         copyBtn.onclick = function () {
           navigator.clipboard.writeText(reply);
           copyBtn.innerText = "✅ Copied!";
@@ -78,7 +107,50 @@
         console.error("Fetch error:", err);
       }
     }
+
+    function openModal() {
+      document.getElementById("waitlistModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("waitlistModal").classList.add("hidden");
+    }
   </script>
+
+  <!-- Waitlist Modal -->
+  <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-2xl p-8 text-center max-w-sm w-full animate__animated animate__zoomIn">
+      <h3 class="text-2xl font-bold mb-6 text-purple-700">Choose how you'd like to join the waitlist</h3>
+      <div class="flex flex-col gap-4">
+        <a href="https://wa.me/917349578763?text=Hey! I'm interested in DM Magnet 👋" target="_blank"
+          class="bg-green-500 text-white py-3 rounded-full hover:bg-green-600 font-semibold shadow">Join via WhatsApp</a>
+        <a href="https://forms.gle/YOUR_FORM_LINK" target="_blank"
+          class="bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 font-semibold shadow">Fill Google Form</a>
+        <button onclick="closeModal()" class="text-sm text-gray-400 hover:text-gray-600 mt-4">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 45, density: { enable: true, value_area: 800 } },
+        color: { value: "#a855f7" },
+        shape: { type: "circle" },
+        opacity: { value: 0.4, random: true },
+        size: { value: 4, random: true },
+        line_linked: { enable: true, distance: 150, color: "#d8b4fe", opacity: 0.3, width: 1 },
+        move: { enable: true, speed: 2, random: true, out_mode: "out" }
+      },
+      interactivity: {
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+  </script>
+
 </body>
 
 </html>
