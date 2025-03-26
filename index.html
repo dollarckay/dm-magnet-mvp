@@ -1,0 +1,84 @@
+<!-- DM Magnet - MVP Landing Page with AI Reply Simulation -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Magnet - Close More Sales While You Sleep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <!-- Hero Section -->
+  <section class="text-center py-20 px-6 bg-white">
+    <h1 class="text-4xl font-bold mb-4">Close More Sales. While You Sleep.</h1>
+    <p class="text-lg mb-6">DM Magnet helps small Instagram shop owners auto-reply to DMs using AI — instantly, smartly, and in your voice.</p>
+    <button class="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700">Join the Waitlist</button>
+  </section>
+
+  <!-- AI Demo Section -->
+  <section class="py-16 px-6 max-w-3xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">🎯 Try the AI Reply Demo</h2>
+    <label for="customerMsg" class="block mb-2">Paste a customer DM message:</label>
+    <textarea id="customerMsg" rows="4" class="w-full p-3 border rounded mb-4" placeholder="Example: 'What's the price of this kurti?'..."></textarea>
+    <button onclick="getAIReply()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">Generate Reply</button>
+
+    <div id="aiResponse" class="mt-6 p-4 border rounded hidden"></div>
+    <button id="copyBtn" class="mt-2 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 hidden">📋 Copy Reply</button>
+  </section>
+
+  <!-- JS for Fetch API -->
+  <script>
+    async function getAIReply() {
+      const message = document.getElementById("customerMsg").value;
+      const responseBox = document.getElementById("aiResponse");
+      const copyBtn = document.getElementById("copyBtn");
+      responseBox.innerHTML = "<span class='animate-pulse'>Generating reply...</span>";
+      responseBox.classList.remove("hidden");
+      copyBtn.classList.add("hidden");
+
+      try {
+        const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "deepseek/deepseek-r1:free",
+            messages: [
+              { role: "system", content: "You are a helpful, professional Instagram shop assistant. Keep responses clear, friendly, and mostly in English with just a light casual tone if needed. Avoid too much Hinglish or emojis." },
+              { role: "user", content: message }
+            ]
+          })
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+        const reply = data?.choices?.[0]?.message?.content || "Sorry, I couldn't generate a reply. Please try again.";
+        responseBox.innerHTML = `<strong>AI Reply:</strong><br>${reply}`;
+        copyBtn.classList.remove("hidden");
+
+        // Auto-scroll
+        responseBox.scrollIntoView({ behavior: "smooth" });
+
+        // Copy button logic
+        copyBtn.onclick = function () {
+          navigator.clipboard.writeText(reply);
+          copyBtn.innerText = "✅ Copied!";
+          setTimeout(() => {
+            copyBtn.innerText = "📋 Copy Reply";
+          }, 2000);
+        };
+
+      } catch (err) {
+        responseBox.innerHTML = "Failed to generate reply. Check API key or try again.";
+        console.error("Fetch error:", err);
+      }
+    }
+  </script>
+</body>
+
+</html>
